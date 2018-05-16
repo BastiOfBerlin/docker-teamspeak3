@@ -3,9 +3,11 @@ FROM frolvlad/alpine-glibc:alpine-3.7
 MAINTAINER BastiOfBerlin
 
 ENV TEAMSPEAK_URL=http://dl.4players.de/ts/releases/3.2.0/teamspeak3-server_linux_amd64-3.2.0.tar.bz2 \
-    TS3_UID=1000
+    TS3_UID=1000 \
+    TS3SERVER_LICENSE=accept
 
-RUN adduser -S -D -u ${TS3_UID} ts3 \
+RUN apk update && apk add ca-certificates \
+  && adduser -S -D -u ${TS3_UID} ts3 \
   && mkdir -p /home/ts3 \
   && wget -q -O /home/ts3/teamspeak3-server_linux_amd64.tar.bz2 ${TEAMSPEAK_URL} \
   && tar --directory /home/ts3 -xjf /home/ts3/teamspeak3-server_linux_amd64.tar.bz2 \
